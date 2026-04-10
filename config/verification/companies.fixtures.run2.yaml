@@ -1,0 +1,43 @@
+project_name: Job Market Intelligence Pipeline
+user_agent: job-market-intel/0.1.0 (+https://github.com/yourname/job-market-intel)
+history_scope: verified-fixture-watch-20260326
+
+directories:
+  raw_dir: ../../artifacts/verification/20260326/data/raw
+  processed_dir: ../../artifacts/verification/20260326/data/processed
+  reports_dir: ../../artifacts/verification/20260326/reports
+  manifests_dir: ../../artifacts/verification/20260326/manifests
+  history_dir: ../../artifacts/verification/20260326/history
+  logs_dir: ../../artifacts/verification/20260326/logs
+
+retry:
+  attempts: 2
+  backoff_seconds: 1
+  timeout_seconds: 15
+
+dedupe:
+  enabled: true
+  similarity_threshold: 0.82
+
+ai:
+  enabled: false
+  provider: openai
+  model: gpt-4.1-mini
+  endpoint: https://api.openai.com/v1/responses
+  timeout_seconds: 30
+  max_jobs_for_enrichment: 10
+  temperature: 0.1
+  max_description_chars: 2500
+  narrative_top_n: 8
+
+companies:
+  - name: Acme Analytics
+    source_type: greenhouse
+    identifier: acme-analytics
+    careers_url: https://acme.example.com/careers
+    fixture_path: ../../tests/fixtures/greenhouse_fixture_run2.json
+  - name: BrightOps
+    source_type: lever
+    identifier: brightops
+    careers_url: https://brightops.example.com/jobs
+    fixture_path: ../../tests/fixtures/lever_fixture_run2.json

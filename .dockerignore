@@ -1,0 +1,17 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+artifacts/
+data/raw/
+data/processed/
+logs/
+reports/
+src/*.egg-info/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.duckdb
+.env

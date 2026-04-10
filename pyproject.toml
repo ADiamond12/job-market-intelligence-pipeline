@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "job-market-intel"
+version = "0.1.0"
+description = "Portfolio-ready Python job market intelligence pipeline for scraping, validation, enrichment, and reporting."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Arsenios Diamantakos" }]
+dependencies = [
+  "beautifulsoup4>=4.12,<5.0",
+  "duckdb>=1.1,<2.0",
+  "pandas>=2.2,<3.0",
+  "pydantic>=2.8,<3.0",
+  "python-dotenv>=1.0,<2.0",
+  "PyYAML>=6.0,<7.0",
+  "requests>=2.32,<3.0",
+  "tenacity>=9.0,<10.0",
+  "typer>=0.12,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2,<2.0",
+  "pytest>=8.2,<9.0",
+]
+
+[project.scripts]
+jobintel = "jobintel.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-q"
