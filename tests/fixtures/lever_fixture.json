@@ -1,0 +1,51 @@
+[
+  {
+    "id": "lever-2001",
+    "text": "Machine Learning Engineer",
+    "hostedUrl": "https://jobs.lever.co/brightops/lever-2001?lever-source=portfolio",
+    "applyUrl": "https://jobs.lever.co/brightops/lever-2001/apply",
+    "createdAt": 1773648000000,
+    "categories": {
+      "team": "AI Platform",
+      "department": "Machine Learning",
+      "commitment": "Full-time",
+      "location": "Remote / United States"
+    },
+    "description": "<p>Design production ML systems for ranking, summarization, and internal copilots.</p>",
+    "lists": [
+      {
+        "text": "What you'll do",
+        "content": [
+          "Build Python services and FastAPI endpoints.",
+          "Ship LLM evaluation pipelines, NLP workflows, and AWS infrastructure.",
+          "Operate Docker and Kubernetes workloads."
+        ]
+      }
+    ],
+    "additional": "<p>Privacy notice for applicants.</p>"
+  },
+  {
+    "id": "lever-2002",
+    "text": "Data Analyst",
+    "hostedUrl": "https://jobs.lever.co/brightops/lever-2002",
+    "applyUrl": "https://jobs.lever.co/brightops/lever-2002/apply",
+    "createdAt": 1773388800000,
+    "categories": {
+      "team": "Operations",
+      "department": "Business Operations",
+      "commitment": "Full-time",
+      "location": "London, England, United Kingdom / Hybrid"
+    },
+    "description": "<p>Support business reviews with SQL analysis, Tableau dashboards, and executive reporting.</p>",
+    "lists": [
+      {
+        "text": "Requirements",
+        "content": [
+          "Advanced SQL and stakeholder communication.",
+          "Experience with Tableau, experimentation, and Python notebooks."
+        ]
+      }
+    ],
+    "additional": "<p>Recruitment fraud warning.</p>"
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "lever-2001",
+    "text": "Machine Learning Engineer",
+    "hostedUrl": "https://jobs.lever.co/brightops/lever-2001?lever-source=portfolio",
+    "applyUrl": "https://jobs.lever.co/brightops/lever-2001/apply",
+    "createdAt": 1773734400000,
+    "categories": {
+      "team": "AI Platform",
+      "department": "Machine Learning",
+      "commitment": "Full-time",
+      "location": "Remote / United States"
+    },
+    "description": "<p>Design production ML systems for ranking, summarization, and internal copilots.</p>",
+    "lists": [
+      {
+        "text": "What you'll do",
+        "content": [
+          "Build Python services and FastAPI endpoints.",
+          "Ship LLM evaluation pipelines, NLP workflows, and AWS infrastructure.",
+          "Operate Docker and Kubernetes workloads.",
+          "Own online evaluation and monitoring for deployed ML features."
+        ]
+      }
+    ],
+    "additional": "<p>Privacy notice for applicants.</p>"
+  },
+  {
+    "id": "lever-2003",
+    "text": "Senior Data Analyst",
+    "hostedUrl": "https://jobs.lever.co/brightops/lever-2003",
+    "applyUrl": "https://jobs.lever.co/brightops/lever-2003/apply",
+    "createdAt": 1773907200000,
+    "categories": {
+      "team": "Operations",
+      "department": "Business Operations",
+      "commitment": "Full-time",
+      "location": "Berlin, Germany / Hybrid"
+    },
+    "description": "<p>Support business reviews with SQL analysis, Tableau dashboards, KPI definitions, and executive reporting.</p>",
+    "lists": [
+      {
+        "text": "Requirements",
+        "content": [
+          "Advanced SQL and stakeholder communication.",
+          "Experience with Tableau, experimentation, and Python notebooks.",
+          "Comfort building automated reporting pipelines."
+        ]
+      }
+    ],
+    "additional": "<p>Recruitment fraud warning.</p>"
+  }
+]

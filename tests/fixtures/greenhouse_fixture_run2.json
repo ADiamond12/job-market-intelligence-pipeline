@@ -1,0 +1,50 @@
+{
+  "jobs": [
+    {
+      "id": 1001,
+      "title": "Senior Data Engineer, Platform",
+      "absolute_url": "https://boards.greenhouse.io/acme/jobs/1001?gh_src=portfolio",
+      "updated_at": "2026-03-27T10:30:00Z",
+      "location": {
+        "name": "Remote, United States"
+      },
+      "departments": [
+        {
+          "name": "Data Platform"
+        }
+      ],
+      "metadata": [
+        {
+          "name": "Salary Range",
+          "value": "$170,000 - $205,000 annually"
+        },
+        {
+          "name": "Employment Type",
+          "value": "Full-time"
+        }
+      ],
+      "content": "<div><p>Build resilient Python data pipelines for analytics and product teams.</p><p>You will own Airflow orchestration, dbt transformations, Snowflake modeling, and AWS data infrastructure.</p><p>Lead platform reliability improvements and cost optimization for batch workflows.</p></div>"
+    },
+    {
+      "id": 1003,
+      "title": "Staff Analytics Engineer",
+      "absolute_url": "https://boards.greenhouse.io/acme/jobs/1003?utm_source=careers",
+      "updated_at": "2026-03-27T09:15:00Z",
+      "location": {
+        "name": "San Francisco, CA, United States / Hybrid"
+      },
+      "departments": [
+        {
+          "name": "Business Intelligence"
+        }
+      ],
+      "metadata": [
+        {
+          "name": "Salary Range",
+          "value": "$180,000 - $220,000 annually"
+        }
+      ],
+      "content": "<div><p>Model trusted datasets and define analytics engineering standards.</p><p>Requirements include SQL, dbt, Python, Looker, experimentation analysis, and stakeholder enablement.</p></div>"
+    }
+  ]
+}
