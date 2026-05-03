@@ -103,6 +103,14 @@ This uses frozen fixtures and produces deterministic local sample outputs.
 jobintel run --config config/companies.fixtures.yaml --run-id demo
 ```
 
+For a two-run verification demo with historical deltas:
+
+```bash
+jobintel run --config config/verification/companies.fixtures.run1.yaml --run-id portfolio-demo-1
+jobintel run --config config/verification/companies.fixtures.run2.yaml --run-id portfolio-demo-2
+jobintel history --config config/verification/companies.fixtures.run2.yaml --run-id portfolio-history --limit 10
+```
+
 ### 3. Run with live ATS-backed sources
 
 Edit [`config/companies.example.yaml`](config/companies.example.yaml) and then run:
@@ -113,13 +121,27 @@ jobintel run --config config/companies.example.yaml --run-id live-20260326
 
 ### 4. Enable optional AI
 
-Copy `.env.example` to `.env` and set:
+Copy `.env.example` to `.env`, fill the OpenAI key locally, and set `ai.enabled: true` in the config file. The `.env` file is ignored and should never be committed.
 
-```bash
-OPENAI_API_KEY=your_api_key
-```
+## Verified Demo Evidence
 
-Then set `ai.enabled: true` in the config file.
+The portfolio verification path uses synthetic Greenhouse and Lever fixtures, then writes the latest report, data-quality outputs, run manifests, and DuckDB history under ignored local artifact folders.
+
+Desktop report screenshot:
+
+![Job Market Intelligence report desktop screenshot](docs/screenshots/market-summary.png)
+
+Responsive report screenshot:
+
+![Job Market Intelligence report responsive screenshot](docs/screenshots/market-summary-mobile.png)
+
+The verified fixture run currently demonstrates:
+
+- 4 published jobs across 2 companies
+- 100% description, location, and posted-date completeness
+- 2 new jobs, 2 removed jobs, and 2 changed jobs in the second run
+- deterministic enrichment fallback with optional AI disabled
+- generated markdown, HTML, JSON, CSV, manifest, and DuckDB history outputs
 
 ## CLI Commands
 

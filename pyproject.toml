@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "job-market-intel"
 version = "0.1.0"
-description = "Portfolio-ready Python job market intelligence pipeline for scraping, validation, enrichment, and reporting."
+description = "Portfolio-ready Python job market intelligence pipeline for ATS collection, validation, enrichment, history, and reporting."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Arsenios Diamantakos" }]

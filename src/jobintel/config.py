@@ -69,7 +69,7 @@ class AppConfig(BaseModel):
     project_name: str = "Job Market Intelligence Pipeline"
     user_agent: str = (
         "job-market-intel/0.1.0 "
-        "(+https://github.com/ADiamond27/job-market-intelligence-pipeline)"
+        "(+https://github.com/ADiamond12/job-market-intelligence-pipeline)"
     )
     directories: DirectoryConfig = Field(default_factory=DirectoryConfig)
     retry: RetryConfig = Field(default_factory=RetryConfig)
