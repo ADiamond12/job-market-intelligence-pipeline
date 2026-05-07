@@ -21,7 +21,7 @@ def render_market_summary_markdown(
         f"- Published jobs: **{metrics.get('total_jobs', 0)}**",
         f"- Companies tracked: **{metrics.get('companies_tracked', 0)}**",
         "",
-        "## Executive Summary",
+        "## Run Summary",
         ai_insight.summary,
         "",
     ]
@@ -29,7 +29,7 @@ def render_market_summary_markdown(
     if delta_summary:
         lines.extend(
             [
-                "## Since Previous Comparable Run",
+                "## Movement Since Previous Run",
                 f"- Baseline run: {delta_summary.get('baseline_run_id') or 'n/a'}",
                 f"- New jobs: {delta_summary.get('new_jobs', 0)}",
                 f"- Removed jobs: {delta_summary.get('removed_jobs', 0)}",
@@ -39,7 +39,7 @@ def render_market_summary_markdown(
             ]
         )
 
-    lines.append("## Skill Trends")
+    lines.append("## Skills Appearing Most Often")
     for item in metrics.get("top_skills", [])[:8]:
         lines.append(f"- {item['skill']}: {item['count']} postings")
 
@@ -51,19 +51,19 @@ def render_market_summary_markdown(
             f"- Seniority: {_distribution_text(metrics.get('seniority_distribution', {}))}",
             f"- Workplace mix: {_distribution_text(metrics.get('workplace_distribution', {}))}",
             "",
-            "## Data Quality",
+            "## Source And Data Quality",
             f"- Collected jobs: {quality_report.get('collected_jobs', 0)}",
             f"- Published jobs: {quality_report.get('published_jobs', 0)}",
             f"- Quarantined jobs: {quality_report.get('quarantined_jobs', 0)}",
             f"- Duplicates removed: {quality_report.get('duplicates_removed', 0)}",
             "",
-            "## AI Signals",
+            "## Optional Narrative Signals",
         ]
     )
     for signal in ai_insight.emerging_signals:
         lines.append(f"- {signal}")
 
-    lines.extend(["", "## Evidence"])
+    lines.extend(["", "## Evidence Notes"])
     for item in ai_insight.evidence:
         lines.append(f"- {item}")
 
@@ -145,7 +145,7 @@ def _render_overview(metrics: dict[str, Any], quality_report: dict[str, Any], ai
         ("AI confidence", _format_pct(ai_insight.confidence * 100 if ai_insight.confidence is not None else None)),
     ]
     return _section(
-        "Overview",
+        "Run Snapshot",
         [
             '<div class="panel-grid">',
             *(_overview_card(label, value) for label, value in items),
@@ -171,12 +171,12 @@ def _render_delta_summary(delta_summary: Mapping[str, Any]) -> str:
                 "</article>"
             )
 
-    return _section("Delta Summary", ['<div class="delta-grid">', *cards, "</div>"])
+    return _section("Run-to-run Movement", ['<div class="delta-grid">', *cards, "</div>"])
 
 
 def _render_skill_trends(metrics: dict[str, Any]) -> str:
     return _section(
-        "Skill Trends",
+        "Skills Appearing Most Often",
         [_render_ranked_bars(metrics.get("top_skills", []), "skill", "count", empty_label="No skill data")],
     )
 
@@ -205,7 +205,7 @@ def _render_quality(metrics: dict[str, Any], quality_report: dict[str, Any]) -> 
     salary_coverage = metrics.get("salary_coverage", {})
 
     return _section(
-        "Data Quality",
+        "Source And Data Quality",
         [
             '<div class="shape-grid">',
             _distribution_card(
@@ -246,7 +246,7 @@ def _render_ai_signals(ai_insight: AIReportInsight) -> str:
     signals = ai_insight.emerging_signals or []
     signal_items = "".join(f"<li>{escape(signal)}</li>" for signal in signals) or "<li>No emerging signals.</li>"
     return _section(
-        "AI Signals",
+        "Optional Narrative Signals",
         [
             f'<div class="quote">{escape(ai_insight.summary)}</div>',
             f'<div class="pill-row"><span class="pill">Confidence {escape(_format_pct(ai_insight.confidence * 100 if ai_insight.confidence is not None else None))}</span>{_model_pill(ai_insight.model)}</div>',
@@ -258,7 +258,7 @@ def _render_ai_signals(ai_insight: AIReportInsight) -> str:
 def _render_evidence(ai_insight: AIReportInsight) -> str:
     evidence = ai_insight.evidence or []
     items = "".join(f"<li>{escape(item)}</li>" for item in evidence) or "<li>No evidence provided.</li>"
-    return _section("Evidence", [f"<ul class=\"bullets\">{items}</ul>"])
+    return _section("Evidence Notes", [f"<ul class=\"bullets\">{items}</ul>"])
 
 
 def _render_ranked_bars(
@@ -461,17 +461,16 @@ def _first_item(items: Mapping[str, Any]) -> str:
 
 def _styles() -> str:
     return (
-        ":root{color-scheme:light;--bg:#f5f1e8;--panel:#ffffff;--panel-2:#f8f4ee;--text:#1d2328;"
-        "--muted:#5e6a72;--accent:#0f766e;--accent-2:#d97706;--border:#d8d0c3;--shadow:0 12px 30px rgba(31,41,55,.08);}"
+        ":root{color-scheme:light;--bg:#f6f5f1;--panel:#ffffff;--panel-2:#f8f7f3;--text:#1d2328;"
+        "--muted:#5e6a72;--accent:#0f766e;--accent-2:#9a5b00;--border:#d9d6cd;--shadow:0 1px 2px rgba(31,41,55,.08);}"
         "*{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;"
-        "background:radial-gradient(circle at top,#fff7eb 0,#f5f1e8 40%,#ece7dd 100%);color:var(--text);line-height:1.5;}"
-        "body::before{content:\"\";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.2),transparent 75%);}"
-        "html{scroll-behavior:smooth}.hero,.section{width:min(1120px,calc(100vw - 32px));margin:24px auto;padding:24px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);position:relative;z-index:1;}"
-        ".hero{padding:32px}.hero h1,.section h2{margin:0 0 12px;font-family:Georgia,serif;letter-spacing:-.02em;overflow-wrap:anywhere;word-break:break-word}.hero h1{max-width:100%;font-size:clamp(1.85rem,4vw,3.5rem);line-height:1.05}"
-        ".eyebrow{margin:0 0 8px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-size:.76rem;font-weight:700}.lede{max-width:70ch;color:var(--muted);margin:0 0 20px;overflow-wrap:anywhere}"
-        ".hero-grid,.panel-grid,.shape-grid,.delta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.card,.stat,.delta-card{min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:16px}"
-        ".card h3,.delta-card h3{margin:0 0 10px;font-size:.88rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);overflow-wrap:anywhere}.metric{margin:0;font-size:1.1rem;font-weight:700;overflow-wrap:anywhere}.stat span{display:block;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.stat strong{display:block;font-size:1.4rem;margin-top:6px}"
-        ".bars{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:1.2fr 2fr auto;gap:12px;align-items:center}.bar-row__label,.bar-row__value{font-size:.95rem}.bar-row__label{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-row__track,.delta-track{height:12px;background:#ede7db;border-radius:999px;overflow:hidden;border:1px solid #ddd3c4}.bar-row__fill,.delta-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),#4b9b95)}.delta-card--negative .delta-fill{background:linear-gradient(90deg,#dc2626,#f97316)}.delta-card--positive .delta-fill{background:linear-gradient(90deg,#15803d,#22c55e)}"
+        "background:var(--bg);color:var(--text);line-height:1.5;}"
+        "html{scroll-behavior:smooth}.hero,.section{width:min(1120px,calc(100vw - 32px));margin:22px auto;padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);position:relative;z-index:1;}"
+        ".hero{padding:30px;border-top:6px solid #17212b}.hero h1,.section h2{margin:0 0 12px;letter-spacing:0;overflow-wrap:anywhere;word-break:break-word}.hero h1{max-width:100%;font-size:clamp(1.85rem,4vw,3.1rem);line-height:1.08}"
+        ".eyebrow{margin:0 0 8px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-size:.76rem;font-weight:700}.lede{max-width:70ch;color:var(--muted);margin:0 0 20px;overflow-wrap:anywhere}"
+        ".hero-grid,.panel-grid,.shape-grid,.delta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.card,.stat,.delta-card{min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px}"
+        ".card h3,.delta-card h3{margin:0 0 10px;font-size:.88rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);overflow-wrap:anywhere}.metric{margin:0;font-size:1.1rem;font-weight:700;overflow-wrap:anywhere}.stat span{display:block;color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;overflow-wrap:anywhere}.stat strong{display:block;font-size:1.4rem;margin-top:6px}"
+        ".bars{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:1.2fr 2fr auto;gap:12px;align-items:center}.bar-row__label,.bar-row__value{font-size:.95rem}.bar-row__label{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-row__track,.delta-track{height:12px;background:#ebe8df;border-radius:999px;overflow:hidden;border:1px solid #d9d6cd}.bar-row__fill,.delta-fill{height:100%;border-radius:inherit;background:var(--accent)}.delta-card--negative .delta-fill{background:#b43f2f}.delta-card--positive .delta-fill{background:#0c7b5d}"
         ".delta-value{margin:0 0 10px;font-size:1.6rem;font-weight:800}.quote{padding:16px;border-left:4px solid var(--accent-2);background:var(--panel-2);border-radius:14px;margin-bottom:12px;color:var(--text)}"
         ".pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;background:rgba(15,118,110,.12);color:var(--accent);font-size:.78rem;font-weight:700}.pill--subtle{background:rgba(217,119,6,.12);color:var(--accent-2)}"
         ".bullets{margin:0;padding-left:20px;color:var(--text)}.bullets li{margin:6px 0}.kv-table{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:14px;background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}.kv-table th,.kv-table td{padding:12px 14px;border-top:1px solid #ebe3d8;text-align:left;overflow-wrap:anywhere}.kv-table tr:first-child th,.kv-table tr:first-child td{border-top:none}.kv-table th{width:55%;color:var(--muted);font-weight:600}.empty{padding:14px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);background:rgba(255,255,255,.55)}"

@@ -54,8 +54,8 @@ def test_render_market_summary_produces_standalone_html_and_escapes_content() ->
 
     assert html.startswith("<!DOCTYPE html>")
     assert "<html lang=\"en\">" in html
-    assert "Delta Summary" in html
-    assert "Skill Trends" in html
+    assert "Run-to-run Movement" in html
+    assert "Skills Appearing Most Often" in html
     assert "Data Quality" in html
     assert "style=\"width:" in html
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html

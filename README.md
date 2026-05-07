@@ -4,10 +4,10 @@ Python CLI pipeline that collects jobs from ATS-backed company career pages, nor
 
 The project is intentionally shaped as a reliable data workflow rather than a brittle "scrape everything" demo. It focuses on reproducibility, validation, history, and business-facing reporting.
 
-## Why This Project
+## Why It Exists
 
-- Targets first-party ATS sources backed by `Greenhouse` and `Lever`
-- Uses a staged pipeline: `collect -> validate -> enrich -> report -> history`
+- Targets first-party ATS sources backed by Greenhouse and Lever
+- Uses a staged pipeline: collect, validate, enrich, report, and history
 - Produces structured outputs, manifests, quality reports, delta reports, and trend summaries
 - Persists comparable historical snapshots in DuckDB
 - Uses optional AI only where deterministic rules are weak or ambiguous
@@ -47,26 +47,26 @@ tests/
   fixtures/
 ```
 
-## Pipeline Stages
+## Pipeline
 
-1. `collect`
+1. Collect
    - Pulls public ATS-backed job data for configured companies
    - Stores raw source snapshots under `data/raw/<run_id>/`
-2. `validate`
+2. Validate
    - Cleans HTML
    - Canonicalizes URLs
    - Normalizes location, employment type, and salary fields
    - Applies validation rules and quarantines invalid rows
    - Removes duplicates
-3. `enrich`
+3. Enrich
    - Extracts skills from a curated keyword taxonomy
    - Infers role family and seniority deterministically
    - Optionally calls the OpenAI Responses API for ambiguous cases only
-4. `report`
+4. Report
    - Builds market metrics and data-quality summaries
    - Compares the current run to the latest stored baseline
    - Exports CSV, JSON, markdown, and HTML outputs for the current run
-5. `history`
+5. History
    - Builds multi-run trend reports from the history store for comparable runs
 
 ## Source Strategy

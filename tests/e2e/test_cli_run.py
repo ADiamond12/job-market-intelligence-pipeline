@@ -89,7 +89,7 @@ companies:
     assert len(jobs) == 4
     assert quality["published_jobs"] == 4
     assert delta["has_baseline"] is False
-    assert "Skill Trends" in report_path.read_text(encoding="utf-8")
+    assert "Skills Appearing Most Often" in report_path.read_text(encoding="utf-8")
     assert "<!DOCTYPE html>" in html_report_path.read_text(encoding="utf-8")
     assert "delta_report" in json.dumps(json.loads(manifest_path.read_text(encoding="utf-8")))
     assert "fixture-run-1" in history_report_md.read_text(encoding="utf-8")
