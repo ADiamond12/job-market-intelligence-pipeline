@@ -143,6 +143,13 @@ The verified fixture run currently demonstrates:
 - deterministic enrichment fallback with optional AI disabled
 - generated markdown, HTML, JSON, CSV, manifest, and DuckDB history outputs
 
+Reviewer path:
+
+1. Run the two fixture-backed commands in the Quick Start section.
+2. Open the generated HTML report for `portfolio-demo-2`.
+3. Check the manifest and history report to confirm the run was reproducible and comparable.
+4. Review the screenshots above to understand the report shape before running the pipeline locally.
+
 ## CLI Commands
 
 ```bash
