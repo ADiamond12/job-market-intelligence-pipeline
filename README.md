@@ -146,9 +146,17 @@ The verified fixture run currently demonstrates:
 Reviewer path:
 
 1. Run the two fixture-backed commands in the Quick Start section.
-2. Open the generated HTML report for `portfolio-demo-2`.
-3. Check the manifest and history report to confirm the run was reproducible and comparable.
-4. Review the screenshots above to understand the report shape before running the pipeline locally.
+2. Open `artifacts/verification/20260326/reports/market_summary.html`.
+3. Check `artifacts/verification/20260326/reports/history_trend_report.md` for the two-run comparison.
+4. Inspect `artifacts/verification/20260326/manifests/runs/portfolio-demo-2/manifest.json` to confirm which files were produced.
+5. Review the screenshots above to understand the report shape before running the pipeline locally.
+
+What the fixture demo proves:
+
+- the pipeline can collect from both Greenhouse-shaped and Lever-shaped inputs without live network access
+- validation, dedupe, enrichment, reporting, manifests, and history run in one CLI flow
+- the second run produces comparable deltas instead of a single static export
+- optional AI remains disabled in the reproducible demo path
 
 ## CLI Commands
 

@@ -119,7 +119,7 @@ def _render_header(title: str, run_id: str, metrics: dict[str, Any], quality_rep
             '<header class="hero">',
             f"  <p class=\"eyebrow\">Run {escape(str(run_id))}</p>",
             f"  <h1>{escape(title)}</h1>",
-            "  <p class=\"lede\">A standalone snapshot of the latest market run with compact visual summaries for scale, quality, and change.</p>",
+            "  <p class=\"lede\">A recruiter-readable ATS watchlist report that turns fixture-backed collection, validation, enrichment, and history into one evidence artifact.</p>",
             '  <div class="hero-grid">',
             _stat_card("Published jobs", _format_number(metrics.get("total_jobs", 0))),
             _stat_card("Companies tracked", _format_number(metrics.get("companies_tracked", 0))),
@@ -142,7 +142,10 @@ def _render_overview(metrics: dict[str, Any], quality_report: dict[str, Any], ai
         ("Top title", top_title or "No data"),
         ("Salary coverage", _format_salary_coverage(salary_coverage)),
         ("Description completeness", _format_pct(completeness.get("description_text_pct"))),
-        ("AI confidence", _format_pct(ai_insight.confidence * 100 if ai_insight.confidence is not None else None)),
+        (
+            "Narrative confidence",
+            _format_pct(ai_insight.confidence * 100 if ai_insight.confidence is not None else None),
+        ),
     ]
     return _section(
         "Run Snapshot",
@@ -155,7 +158,24 @@ def _render_overview(metrics: dict[str, Any], quality_report: dict[str, Any], ai
 
 
 def _render_delta_summary(delta_summary: Mapping[str, Any]) -> str:
-    items = sorted(delta_summary.items(), key=lambda item: item[0])
+    preferred_order = (
+        "baseline_run_id",
+        "new_jobs",
+        "removed_jobs",
+        "changed_jobs",
+        "unchanged_jobs",
+        "net_change",
+    )
+    items = [
+        (key, delta_summary[key])
+        for key in preferred_order
+        if key in delta_summary
+    ]
+    items.extend(
+        (key, value)
+        for key, value in sorted(delta_summary.items(), key=lambda item: item[0])
+        if key not in preferred_order
+    )
     numeric_values = [abs(value) for _, value in items if isinstance(value, (int, float))]
     scale = max(numeric_values) if numeric_values else 0
 
@@ -166,7 +186,7 @@ def _render_delta_summary(delta_summary: Mapping[str, Any]) -> str:
         else:
             cards.append(
                 '<article class="delta-card">'
-                f"  <h3>{escape(str(key))}</h3>"
+                f"  <h3>{escape(_humanize_label(str(key)))}</h3>"
                 f"  <p>{escape(_stringify_value(value))}</p>"
                 "</article>"
             )
@@ -341,11 +361,25 @@ def _delta_card(label: str, value: float, scale: float) -> str:
     kind = "positive" if value > 0 else "negative" if value < 0 else "neutral"
     return (
         f'<article class="delta-card delta-card--{kind}">'
-        f"  <h3>{escape(str(label))}</h3>"
+        f"  <h3>{escape(_humanize_label(str(label)))}</h3>"
         f"  <p class=\"delta-value\">{escape(_format_signed_number(value))}</p>"
         f"  <div class=\"delta-track\"><div class=\"delta-fill\" style=\"width:{width}%\"></div></div>"
         "</article>"
     )
+
+
+def _humanize_label(value: str) -> str:
+    known_labels = {
+        "baseline_run_id": "Baseline run",
+        "new_jobs": "New jobs",
+        "removed_jobs": "Removed jobs",
+        "changed_jobs": "Changed jobs",
+        "unchanged_jobs": "Unchanged jobs",
+        "net_change": "Net change",
+    }
+    if value in known_labels:
+        return known_labels[value]
+    return value.replace("_", " ").strip().title()
 
 
 def _overview_card(label: str, value: Any) -> str:
