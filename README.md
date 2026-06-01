@@ -134,6 +134,12 @@ Copy `.env.example` to `.env`, fill the OpenAI key locally, and set `ai.enabled:
 
 The portfolio verification path uses synthetic Greenhouse and Lever fixtures, then writes the latest report, data-quality outputs, run manifests, and DuckDB history under ignored local artifact folders.
 
+Run the full reviewer demo with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run_demo.ps1
+```
+
 Open this first after running the verification commands:
 
 ```text
@@ -170,6 +176,8 @@ What the fixture demo proves:
 - validation, dedupe, enrichment, reporting, manifests, and history run in one CLI flow
 - the second run produces comparable deltas instead of a single static export
 - optional AI remains disabled in the reproducible demo path
+
+The useful product behavior is the repeatable review loop: refresh the watchlist, check source quality, compare movement against the previous run, and keep a manifest that proves which artifacts were generated.
 
 ## CLI Commands
 
