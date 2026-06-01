@@ -80,6 +80,7 @@ def render_market_summary(
     title = "Job Market Intelligence Report"
     sections = [
         _render_header(title, run_id, metrics, quality_report),
+        _render_decision_view(),
         _render_overview(metrics, quality_report, ai_insight),
     ]
 
@@ -119,7 +120,7 @@ def _render_header(title: str, run_id: str, metrics: dict[str, Any], quality_rep
             '<header class="hero">',
             f"  <p class=\"eyebrow\">Run {escape(str(run_id))}</p>",
             f"  <h1>{escape(title)}</h1>",
-            "  <p class=\"lede\">A recruiter-readable ATS watchlist report that turns fixture-backed collection, validation, enrichment, and history into one evidence artifact.</p>",
+            "  <p class=\"lede\">An ATS watchlist report that turns collection, validation, enrichment, and history into one reviewable market artifact.</p>",
             '  <div class="hero-grid">',
             _stat_card("Published jobs", _format_number(metrics.get("total_jobs", 0))),
             _stat_card("Companies tracked", _format_number(metrics.get("companies_tracked", 0))),
@@ -128,6 +129,19 @@ def _render_header(title: str, run_id: str, metrics: dict[str, Any], quality_rep
             "  </div>",
             "</header>",
         ]
+    )
+
+
+def _render_decision_view() -> str:
+    return _section(
+        "Decision View",
+        [
+            '<div class="panel-grid">',
+            _overview_card("Open first", "Run-to-run movement and source quality"),
+            _overview_card("Use for", "A repeatable watchlist review, not a one-off scrape"),
+            _overview_card("Evidence", "Fixture-backed inputs, manifests, DuckDB history, and report outputs"),
+            "</div>",
+        ],
     )
 
 

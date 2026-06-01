@@ -4,6 +4,13 @@ Python CLI pipeline that collects jobs from ATS-backed company career pages, nor
 
 The project is intentionally shaped as a reliable data workflow rather than a brittle "scrape everything" demo. It focuses on reproducibility, validation, history, and business-facing reporting.
 
+## Useful In Practice For
+
+- Keeping a small company watchlist current without manually checking each careers page
+- Turning ATS fixture or live-source runs into one HTML report, data-quality record, and run manifest
+- Comparing one run against the previous baseline so new, removed, and changed roles are visible
+- Showing data-engineering judgment around validation, reproducibility, history, and optional AI boundaries
+
 ## Why It Exists
 
 - Targets first-party ATS sources backed by Greenhouse and Lever
@@ -126,6 +133,12 @@ Copy `.env.example` to `.env`, fill the OpenAI key locally, and set `ai.enabled:
 ## Verified Demo Evidence
 
 The portfolio verification path uses synthetic Greenhouse and Lever fixtures, then writes the latest report, data-quality outputs, run manifests, and DuckDB history under ignored local artifact folders.
+
+Open this first after running the verification commands:
+
+```text
+artifacts/verification/20260326/reports/market_summary.html
+```
 
 Desktop report screenshot:
 
