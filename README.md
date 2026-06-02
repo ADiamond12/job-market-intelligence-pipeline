@@ -11,6 +11,15 @@ The project is intentionally shaped as a reliable data workflow rather than a br
 - Comparing one run against the previous baseline so new, removed, and changed roles are visible
 - Showing data-engineering judgment around validation, reproducibility, history, and optional AI boundaries
 
+## Reviewer Proof
+
+- **Problem:** job-market snapshots are hard to trust when each scrape is a one-off file with no validation, history, or run-over-run comparison.
+- **First command:** `powershell -ExecutionPolicy Bypass -File .\scripts\run_demo.ps1`
+- **Proof artifact:** two fixture-backed runs plus a history report under `outputs/`.
+- **Open first:** the latest market-summary HTML report printed by the demo script.
+- **Validation:** 24 pytest tests cover parsing, validation, source adapters, reporting, history, and CLI behavior.
+- **Current limitation:** live ATS collection is supported by source adapters, but the public reviewer demo uses fixtures so the proof stays reproducible.
+
 ## Why It Exists
 
 - Targets first-party ATS sources backed by Greenhouse and Lever
