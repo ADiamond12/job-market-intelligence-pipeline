@@ -68,6 +68,8 @@ companies:
     delta_path = tmp_path / "reports" / "delta_report.json"
     history_report_md = tmp_path / "reports" / "history_trend_report.md"
     history_report_json = tmp_path / "reports" / "history_trend_report.json"
+    report_index_md = tmp_path / "reports" / "report_index.md"
+    report_index_html = tmp_path / "reports" / "report_index.html"
     manifest_path = tmp_path / "artifacts" / "manifests" / "fixture-run-1.json"
     history_db_path = tmp_path / "artifacts" / "history" / "jobintel.duckdb"
 
@@ -79,6 +81,8 @@ companies:
     assert delta_path.exists()
     assert history_report_md.exists()
     assert history_report_json.exists()
+    assert report_index_md.exists()
+    assert report_index_html.exists()
     assert manifest_path.exists()
     assert history_db_path.exists()
 
@@ -92,6 +96,8 @@ companies:
     assert "Skills Appearing Most Often" in report_path.read_text(encoding="utf-8")
     assert "<!DOCTYPE html>" in html_report_path.read_text(encoding="utf-8")
     assert "delta_report" in json.dumps(json.loads(manifest_path.read_text(encoding="utf-8")))
+    assert "Open this first" in report_index_html.read_text(encoding="utf-8")
+    assert "market_summary.html" in report_index_md.read_text(encoding="utf-8")
     assert "fixture-run-1" in history_report_md.read_text(encoding="utf-8")
 
     config_path_run2 = tmp_path / "fixture-config-run2.yaml"
@@ -143,8 +149,10 @@ companies:
     assert delta_run2["summary"]["changed_jobs"] == 2
     assert manifest_run2["artifacts"]["history_db"].endswith("jobintel.duckdb")
     archived_delta_path = manifest_run2["artifacts"]["delta_report"].replace("\\", "/")
+    archived_index_path = manifest_run2["artifacts"]["report_index_html"].replace("\\", "/")
     assert "runs/" in archived_delta_path
     assert archived_delta_path.endswith("runs/fixture-run-2/reports/delta_report.json")
+    assert archived_index_path.endswith("runs/fixture-run-2/reports/report_index.html")
     assert manifest_run2["comparison_scope"].startswith("companies:")
     assert history_payload["total_runs"] == 2
     assert [run["run_id"] for run in history_payload["runs"]] == ["fixture-run-2", "fixture-run-1"]

@@ -14,6 +14,7 @@ from jobintel.pipeline.enrich import run_enrichment
 from jobintel.pipeline.report import run_reporting
 from jobintel.pipeline.validate import run_validation
 from jobintel.reporting.history_report import build_history_trend_report
+from jobintel.reporting.report_index import render_report_index_html, render_report_index_markdown
 from jobintel.storage.artifacts import build_artifact_paths, ensure_directories, snapshot_run_artifacts
 from jobintel.storage.history import HistoryStore
 from jobintel.storage.manifests import write_manifest
@@ -97,9 +98,23 @@ def _manifest_artifacts(paths, archived_paths: dict[str, Path] | None = None) ->
         "history_trend_report_markdown": str(
             archive.get("history_trend_report_markdown", paths.history_report_markdown_path)
         ),
+        "report_index": str(archive.get("report_index", paths.report_index_path)),
+        "report_index_html": str(archive.get("report_index_html", paths.report_index_html_path)),
         "ai_insights": str(archive.get("ai_insights", paths.ai_insights_path)),
         "history_db": str(paths.history_db_path),
+        "run_manifest": str(paths.run_manifest_path),
     }
+
+
+def _write_report_index(paths, manifest: RunManifest, history_payload: dict) -> None:
+    paths.report_index_path.write_text(
+        render_report_index_markdown(manifest, history_payload),
+        encoding="utf-8",
+    )
+    paths.report_index_html_path.write_text(
+        render_report_index_html(manifest, history_payload),
+        encoding="utf-8",
+    )
 
 
 @app.command()
@@ -149,6 +164,23 @@ def report(
     history_store.ensure_schema()
     metrics, _, _, delta_report = run_reporting(config, paths, logger, history_store=history_store)
     history_payload = _write_history_trend_report(config, paths, history_store)
+    manifest = RunManifest(
+        run_id=resolved_run_id,
+        config_path=str(config.config_path or config_path),
+        comparison_scope=config.comparison_scope,
+        started_at=utc_now(),
+        completed_at=utc_now(),
+        status="success",
+        source_stats=[],
+        totals={
+            "published_jobs": metrics.get("total_jobs", 0),
+            "new_jobs": delta_report.get("summary", {}).get("new_jobs", 0),
+            "removed_jobs": delta_report.get("summary", {}).get("removed_jobs", 0),
+            "changed_jobs": delta_report.get("summary", {}).get("changed_jobs", 0),
+        },
+        artifacts=_manifest_artifacts(paths),
+    )
+    _write_report_index(paths, manifest, history_payload)
     typer.echo(
         f"[{resolved_run_id}] report created with {metrics['total_jobs']} published jobs "
         f"-> {paths.market_summary_path} and {paths.market_summary_html_path}; "
@@ -245,6 +277,7 @@ def run(
             write_manifest(paths.run_manifest_path, manifest)
             history_store.save_run(manifest)
             history_payload = _write_history_trend_report(config, paths, history_store)
+            _write_report_index(paths, manifest, history_payload)
             archived_paths = snapshot_run_artifacts(paths)
             manifest = RunManifest(
                 run_id=resolved_run_id,
@@ -259,6 +292,7 @@ def run(
             )
             write_manifest(paths.run_manifest_path, manifest)
             history_store.save_run(manifest)
+            _write_report_index(paths, manifest, history_payload)
     except RunLockError as exc:
         logger.error(str(exc))
         typer.echo(f"[{resolved_run_id}] {exc}")
@@ -285,7 +319,7 @@ def run(
         f"removed={delta_report.get('summary', {}).get('removed_jobs', 0)}, "
         f"changed={delta_report.get('summary', {}).get('changed_jobs', 0)}; "
         f"reports -> {paths.market_summary_path}, {paths.market_summary_html_path}, "
-        f"{paths.history_report_markdown_path} ({history_payload['total_runs']} runs)"
+        f"{paths.report_index_html_path}, {paths.history_report_markdown_path} ({history_payload['total_runs']} runs)"
     )
 
 

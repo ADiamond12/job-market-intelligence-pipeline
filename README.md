@@ -15,8 +15,8 @@ The project is intentionally shaped as a reliable data workflow rather than a br
 
 - **Problem:** job-market snapshots are hard to trust when each scrape is a one-off file with no validation, history, or run-over-run comparison.
 - **First command:** `powershell -ExecutionPolicy Bypass -File .\scripts\run_demo.ps1`
-- **Proof artifact:** two fixture-backed runs plus a history report under `outputs/`.
-- **Open first:** the latest market-summary HTML report printed by the demo script.
+- **Proof artifact:** two fixture-backed runs plus a report index, market summary, manifest, and history report under local artifacts.
+- **Open first:** `artifacts/verification/20260326/reports/report_index.html`, then the market-summary HTML linked from that index.
 - **Validation:** 24 pytest tests cover parsing, validation, source adapters, reporting, history, and CLI behavior.
 - **Current limitation:** live ATS collection is supported by source adapters, but the public reviewer demo uses fixtures so the proof stays reproducible.
 
@@ -152,7 +152,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_demo.ps1
 Open this first after running the verification commands:
 
 ```text
-artifacts/verification/20260326/reports/market_summary.html
+artifacts/verification/20260326/reports/report_index.html
 ```
 
 Desktop report screenshot:
@@ -174,8 +174,8 @@ The verified fixture run currently demonstrates:
 Reviewer path:
 
 1. Run the two fixture-backed commands in the Quick Start section.
-2. Open `artifacts/verification/20260326/reports/market_summary.html`.
-3. Check `artifacts/verification/20260326/reports/history_trend_report.md` for the two-run comparison.
+2. Open `artifacts/verification/20260326/reports/report_index.html`.
+3. Follow the index to the market summary and history trend report.
 4. Inspect `artifacts/verification/20260326/manifests/runs/portfolio-demo-2/manifest.json` to confirm which files were produced.
 5. Review the screenshots above to understand the report shape before running the pipeline locally.
 
@@ -218,6 +218,7 @@ Each run stores:
 - data quality reports
 - delta reports
 - markdown and HTML summaries
+- report index with the first-open reviewer path
 - run manifests
 - DuckDB history snapshots
 

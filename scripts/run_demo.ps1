@@ -29,9 +29,10 @@ Write-Host "Building history report"
 jobintel history --config config/verification/companies.fixtures.run2.yaml --run-id portfolio-history --limit 10
 
 Write-Host ""
-Write-Host "Open this report first:"
-Write-Host "artifacts/verification/20260326/reports/market_summary.html"
+Write-Host "Open this index first:"
+Write-Host "artifacts/verification/20260326/reports/report_index.html"
 Write-Host ""
 Write-Host "Then inspect:"
+Write-Host "artifacts/verification/20260326/reports/market_summary.html"
 Write-Host "artifacts/verification/20260326/reports/history_trend_report.md"
 Write-Host "artifacts/verification/20260326/manifests/runs/portfolio-demo-2/manifest.json"

@@ -33,6 +33,8 @@ class ArtifactPaths:
     data_quality_path: Path
     history_report_json_path: Path
     history_report_markdown_path: Path
+    report_index_path: Path
+    report_index_html_path: Path
     market_summary_path: Path
     market_summary_data_path: Path
     market_summary_html_path: Path
@@ -68,6 +70,8 @@ def build_artifact_paths(config: AppConfig, run_id: str) -> ArtifactPaths:
         data_quality_path=reports_dir / "data_quality_report.json",
         history_report_json_path=reports_dir / "history_trend_report.json",
         history_report_markdown_path=reports_dir / "history_trend_report.md",
+        report_index_path=reports_dir / "report_index.md",
+        report_index_html_path=reports_dir / "report_index.html",
         market_summary_path=reports_dir / "market_summary.md",
         market_summary_data_path=reports_dir / "market_summary.data.json",
         market_summary_html_path=reports_dir / "market_summary.html",
@@ -145,6 +149,8 @@ def snapshot_run_artifacts(paths: ArtifactPaths) -> dict[str, Path]:
         "market_summary_data": reports_dir / "market_summary.data.json",
         "history_trend_report_json": reports_dir / "history_trend_report.json",
         "history_trend_report_markdown": reports_dir / "history_trend_report.md",
+        "report_index": reports_dir / "report_index.md",
+        "report_index_html": reports_dir / "report_index.html",
         "ai_insights": reports_dir / "ai_insights.json",
     }
 
@@ -163,6 +169,8 @@ def snapshot_run_artifacts(paths: ArtifactPaths) -> dict[str, Path]:
         "market_summary_data": paths.market_summary_data_path,
         "history_trend_report_json": paths.history_report_json_path,
         "history_trend_report_markdown": paths.history_report_markdown_path,
+        "report_index": paths.report_index_path,
+        "report_index_html": paths.report_index_html_path,
         "ai_insights": paths.ai_insights_path,
     }
 
