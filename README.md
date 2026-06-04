@@ -17,8 +17,12 @@ The project is intentionally shaped as a reliable data workflow rather than a br
 - **First command:** `powershell -ExecutionPolicy Bypass -File .\scripts\run_demo.ps1`
 - **Proof artifact:** two fixture-backed runs plus a report index, market summary, manifest, and history report under local artifacts.
 - **Open first:** `artifacts/verification/20260326/reports/report_index.html`, then the market-summary HTML linked from that index.
-- **Validation:** 24 pytest tests cover parsing, validation, source adapters, reporting, history, and CLI behavior.
+- **Validation:** 28 pytest tests cover parsing, validation, source adapters, reporting, history, CLI behavior, and the OpsForge module contract.
 - **Current limitation:** live ATS collection is supported by source adapters, but the public reviewer demo uses fixtures so the proof stays reproducible.
+
+## OpsForge Module Contract
+
+`docs/opsforge-module-contract.json` defines this repo as the OpsForge Market Intelligence module: accepted watchlist/source inputs, report outputs, proof artifacts, deterministic demo boundary, deployment shape, and limitations. The contract is validated in pytest so the reporting module stays explicit and reviewable.
 
 ## Why It Exists
 

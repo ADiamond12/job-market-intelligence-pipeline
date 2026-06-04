@@ -1,0 +1,41 @@
+{
+  "module_id": "opsforge-market-intelligence",
+  "repo": "job-market-intelligence-pipeline",
+  "suite_role": "Market intelligence reporting system",
+  "status": "strong data and reporting proof",
+  "primary_user": "analyst or engineering lead reviewing fixture-backed market signals and run-over-run changes",
+  "input_types": [
+    "company watchlist",
+    "ATS fixture data",
+    "Greenhouse source output",
+    "Lever source output",
+    "historical run snapshot"
+  ],
+  "output_artifacts": [
+    "report index",
+    "market summary report",
+    "source quality panel",
+    "delta report",
+    "run manifest",
+    "CSV and JSON extracts"
+  ],
+  "proof_artifacts": [
+    "artifacts/verification/20260326/reports/report_index.html",
+    "docs/screenshots/report-index-desktop.png",
+    "docs/screenshots/market-summary-desktop.png",
+    "docs/screenshots/report-index-mobile.png"
+  ],
+  "local_demo_command": "powershell -ExecutionPolicy Bypass -File .\\scripts\\run_demo.ps1",
+  "deployment_shape": "Python CLI pipeline with fixture-backed demo, DuckDB history, and generated HTML/Markdown/JSON artifacts",
+  "safety_boundaries": [
+    "fixture-backed reviewer path is deterministic",
+    "optional enrichment is separate from source collection and validation",
+    "public demo avoids private candidate or company data",
+    "live source collection is not required for proof"
+  ],
+  "limitations": [
+    "not a hosted dashboard in this release",
+    "live ATS behavior can change outside the fixture proof path",
+    "market interpretation requires human review"
+  ]
+}
